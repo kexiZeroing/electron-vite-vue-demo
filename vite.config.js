@@ -1,3 +1,4 @@
+import { join } from 'node:path'
 import { rmSync } from 'node:fs'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue2'
@@ -14,6 +15,11 @@ export default defineConfig(({ command }) => {
   const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
   return {
+    resolve:{
+      alias:{
+        '@': join(__dirname, './src'),
+      },
+    },
     plugins: [
       vue(),
       electron([
@@ -62,13 +68,6 @@ export default defineConfig(({ command }) => {
         nodeIntegration: true,
       }),
     ],
-    server: process.env.VSCODE_DEBUG && (() => {
-      const url = new URL(pkg.debug.env.VITE_DEV_SERVER_URL)
-      return {
-        host: url.hostname,
-        port: +url.port,
-      }
-    })(),
     clearScreen: false,
   }
 })
