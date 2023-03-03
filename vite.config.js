@@ -26,6 +26,7 @@ export default defineConfig(({ command }) => {
         {
           // Main-Process entry file of the Electron App.
           entry: 'electron/main/index.js',
+          // https://github.com/electron-vite/vite-plugin-electron
           onstart(options) {
             if (process.env.VSCODE_DEBUG) {
               console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')

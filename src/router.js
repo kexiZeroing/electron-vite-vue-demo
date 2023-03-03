@@ -8,13 +8,18 @@ const router = new Router({
   routes: [
     {
       path: '/',
-      name: 'index',
-      component: () => import('@/components/Index.vue'),
+      name: 'count',
+      component: () => import('@/components/Count.vue'),
     },
     {
       path: '/hello/:name',
       name: 'hello',
       component: () => import('@/components/Hello.vue'),
+    },
+    {
+      path: '/about',
+      name: 'About',
+      component: () => import('@/components/About.vue'),
     },
   ]
 })

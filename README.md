@@ -2,7 +2,8 @@
 
 🥳 Really simple `Electron` + `Vue` + `Vite` boilerplate.
 
-https://github.com/electron-vite/electron-vite-vue
+- https://github.com/electron-vite/electron-vite-vue
+- https://vitejs.dev/config
 
 ## Directory
 
