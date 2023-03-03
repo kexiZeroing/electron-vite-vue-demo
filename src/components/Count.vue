@@ -13,7 +13,7 @@
     </div>
 
     <div @click="sayHello" class="link">Go to another page</div>
-    <button type="button" @click="seeAbout">About</button>
+    <button type="button" @click="goThreeDemo">Threejs Demo</button>
   </div>
 </template>
 
@@ -36,8 +36,8 @@ function getTimeFromMain() {
   ipcRenderer.send('get-time')
 }
 
-function seeAbout() {
-  ipcRenderer.invoke('open-win', 'about')
+function goThreeDemo() {
+  ipcRenderer.invoke('open-win', 'three-model')
 }
 
 ipcRenderer.on('set-time', (event, data) => {

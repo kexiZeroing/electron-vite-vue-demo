@@ -17,9 +17,9 @@ const router = new Router({
       component: () => import('@/components/Hello.vue'),
     },
     {
-      path: '/about',
-      name: 'About',
-      component: () => import('@/components/About.vue'),
+      path: '/three-model',
+      name: 'three-model',
+      component: () => import('@/components/ThreeModel.vue'),
     },
   ]
 })
