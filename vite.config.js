@@ -1,4 +1,4 @@
-import { join } from 'node:path'
+import path from 'path';
 import { rmSync } from 'node:fs'
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue2'
@@ -6,18 +6,16 @@ import electron from 'vite-plugin-electron'
 import renderer from 'vite-plugin-electron-renderer'
 import pkg from './package.json'
 
-// https://vitejs.dev/config/
 export default defineConfig(({ command }) => {
   rmSync('dist-electron', { recursive: true, force: true })
 
   const isServe = command === 'serve'
   const isBuild = command === 'build'
-  const sourcemap = isServe || !!process.env.VSCODE_DEBUG
 
   return {
     resolve:{
       alias:{
-        '@': join(__dirname, './src'),
+        '@': path.resolve(__dirname, './src'),
       },
     },
     plugins: [
@@ -27,21 +25,14 @@ export default defineConfig(({ command }) => {
           // Main-Process entry file of the Electron App.
           entry: 'electron/main/index.js',
           // https://github.com/electron-vite/vite-plugin-electron
-          onstart(options) {
-            if (process.env.VSCODE_DEBUG) {
-              console.log(/* For `.vscode/.debug.script.mjs` */'[startup] Electron App')
-            } else {
-              options.startup()
-            }
-          },
           vite: {
             build: {
-              sourcemap,
+              sourcemap: isServe,
               minify: isBuild,
               outDir: 'dist-electron/main',
-              rollupOptions: {
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
-              },
+              // rollupOptions: {
+              //   external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+              // },
             },
           },
         },
@@ -54,12 +45,12 @@ export default defineConfig(({ command }) => {
           },
           vite: {
             build: {
-              sourcemap: sourcemap ? 'inline' : undefined, // #332
+              sourcemap: isServe ? 'inline' : undefined,
               minify: isBuild,
               outDir: 'dist-electron/preload',
-              rollupOptions: {
-                external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
-              },
+              // rollupOptions: {
+              //   external: Object.keys('dependencies' in pkg ? pkg.dependencies : {}),
+              // },
             },
           },
         }

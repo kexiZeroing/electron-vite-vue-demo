@@ -5,8 +5,11 @@
         <img src="../assets/electron.svg" class="logo" alt="Electron logo" />
       </a>
     </div>
-    <button type="button" @click="count++">count is {{ count }}</button>
     
+    <button type="button" @click="count++">count is {{ count }}</button>
+    <br />
+    <button type="button" @click="incStoreCount">Store count is {{ store.count }}</button>
+
     <div>
       <button type="button" @click="getTimeFromMain">Get the time: </button>
       <p>{{ currentTime }}</p>
@@ -20,9 +23,12 @@
 <script setup>
 import { ref } from 'vue'
 import { useRoute, useRouter } from 'vue-router/composables'
+import { useCountStore } from '@/stores/count'
 import { ipcRenderer } from 'electron';
 
 const router = useRouter()
+const store = useCountStore()
+
 const count = ref(0)
 const currentTime = ref('')
 
@@ -40,6 +46,10 @@ function goThreeDemo() {
   ipcRenderer.invoke('open-win', 'three-model')
 }
 
+function incStoreCount() {
+  store.increment()
+}
+
 ipcRenderer.on('set-time', (event, data) => {
   currentTime.value = data
 })
@@ -54,6 +64,9 @@ ipcRenderer.on('set-time', (event, data) => {
     transition: filter 300ms;
   }
 
+  button {
+    margin: 3px 0;
+  }
   p {
     color: blue;
   }
